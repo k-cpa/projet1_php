@@ -1,6 +1,7 @@
 <?php 
     session_start();
     $bdd = new PDO('mysql:host=localhost;dbname=film;charset=utf8', 'root', 'root');
+    var_dump($_SESSION);
 
     $request = $bdd->prepare(' SELECT *
                                 FROM fiche_film'
@@ -26,7 +27,7 @@
                             $heure = ($data['duration'] - $min) / 60
                         ?>
                                 <article>
-                                    <img src="<?= $data['image'] ?>" alt="Image correspondant au film">
+                                    <img src="images/<?= $data['image'] ?>" alt="Image correspondant au film">
                                     <p><?= $data['title'] ?></p>
                                     <p><?= $heure . "h" . $min . "min" ?></p>
                                     <p><?= $data['date'] ?></p>
