@@ -40,6 +40,7 @@
     <!-- Récupérer l'id de la fiche de film selectionné  
      l'utiliser dans une requete SQL select pour afficher une seule fiche de film -->
      <article>
+        <img src="images/<?= $data['image']?>" alt="Image du film">
         <p><?= $data['title'] ?></p>
         <p><?= $data['duration'] ?></p>
         <p><?= $data['date'] ?></p>
