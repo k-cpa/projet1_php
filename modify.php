@@ -117,6 +117,8 @@
     <title>Modifier</title>
 </head>
 <body>
+<?php include('nav.php');?>
+
     <h1>Modifier les informations du film</h1>
     <form action="modify.php?id=<?= $film_id ?>" method="post" enctype="multipart/form-data">
         <label for="title">Modifier le titre :</label>

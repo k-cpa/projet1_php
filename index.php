@@ -1,13 +1,12 @@
 <?php 
     session_start();
     $bdd = new PDO('mysql:host=localhost;dbname=film;charset=utf8', 'root', 'root');
-    var_dump($_SESSION);
 
     $request = $bdd->prepare(' SELECT *
                                 FROM fiche_film'
                             );
     $request->execute([]);
-    // var_dump($_SESSION); // test fonctionnement session
+    var_dump($_SESSION); // test fonctionnement session
 ?>
 
 <!DOCTYPE html>
@@ -32,8 +31,16 @@
                                     <p><?= $heure . "h" . $min . "min" ?></p>
                                     <p><?= $data['date'] ?></p>
                                     <a href="voir_plus.php?id=<?= htmlspecialchars($data['film_id']) ?>">voir plus</a>
-                                    <a href="modify.php?id=<?= htmlspecialchars($data['film_id']) ?>">Modifier</a>
-                                    <a href="suppress.php?id=<?= htmlspecialchars($data['film_id']) ?>">Supprimer</a>
+                                    <!-- Condition pour afficher supprimer et modifier uniquement si le session ID correspond à l'ID qui a créé l'article -->
+                                    <?php 
+                                        if (isset($_SESSION['id']) && $_SESSION['id'] === $data['user_id']) {
+                                            echo "<a href='modify.php?id=" . htmlspecialchars($data['film_id']) . "'>Modifier</a>";
+                                            echo "<a href='suppress.php?id=" . htmlspecialchars($data['film_id']) . "'>Supprimer</a>";
+                                        } else {
+                                            '';
+                                        }
+                                    ?>
+                                    
                                 </article>
                         <?php endwhile?>
                         
