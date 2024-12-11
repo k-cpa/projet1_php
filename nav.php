@@ -1,4 +1,4 @@
-
+<!-- Full header for next projects -->
 <nav>
     <ul>
         <l><a href="index.php">Accueil</a></li>

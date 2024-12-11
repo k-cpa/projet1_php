@@ -9,18 +9,16 @@
     if (isset($_GET['id'])) {
         // Récupère et sécurise l'ID du film passé dans l'URL pour éviter les attaques XSS
         $film_id = htmlspecialchars($_GET['id']);
-        $user_id = $_SESSION['id'];
 
         // Récupère le nom du fichier image associé au film avant de le supprimer
         $imgRequest = $bdd->prepare('
             SELECT image 
             FROM fiche_film
-            WHERE film_id = :film_id AND user_id = :user_id
+            WHERE film_id = :film_id
         ');
         // Exécute la requête pour obtenir l'image associée au film
         $imgRequest->execute([
             'film_id' => $film_id,
-            'user_id' => $user_id
         ]);
         $data = $imgRequest->fetch();
 
@@ -40,12 +38,11 @@
         $request = $bdd->prepare('
             DELETE 
             FROM fiche_film
-            WHERE film_id = :film_id AND user_id = :user_id
+            WHERE film_id = :film_id 
         ');
         // Exécute la requête pour supprimer le film de la base de données
         $request->execute([
             'film_id' => $film_id,
-            'user_id' => $user_id
         ]);
 
         // Redirige l'utilisateur vers la page index.php après la suppression du film
