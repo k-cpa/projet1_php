@@ -9,17 +9,19 @@
     if(isset($_GET['id'])) {
         // Sécurise l'ID en échappant les caractères spéciaux pour éviter les failles XSS
         $film_id = htmlspecialchars($_GET['id']);
+        $user_id = $_SESSION['id'];
 
         // Prépare une requête SQL pour récupérer les informations du film correspondant à cet ID
         // Utilisation d'un placeholder `:film_id` pour protéger contre les injections SQL
         $request = $bdd->prepare(' 
                                     SELECT * 
                                     FROM fiche_film
-                                    WHERE film_id = :film_id 
+                                    WHERE film_id = :film_id AND user_id = :user_id
                                 ');
         // Exécution de la requête avec l'ID fourni
         $request->execute([
             'film_id' => $film_id,
+            'user_ud' => $user_id
         ]);
 
         // Récupère les données du film sous forme de tableau associatif
@@ -81,7 +83,7 @@
             $updateRequest = $bdd->prepare(' 
                                         UPDATE fiche_film
                                         SET title = :title, duration = :duration, date = :date, image = :image
-                                        WHERE film_id = :film_id 
+                                        WHERE film_id = :film_id AND user_id = :user_id
                                     ');
             // Exécute la requête avec les nouvelles données
             $success = $updateRequest->execute([
@@ -90,6 +92,7 @@
                 'date' => $date,
                 'image' => $uniqueFileName, // Nom unique du fichier
                 'film_id' => $film_id, // L'ID du film à mettre à jour
+                'user_id' => $user_id
             ]);
 
             // Vérifie si la mise à jour a réussi
